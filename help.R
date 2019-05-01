@@ -1,0 +1,20 @@
+library(shinydashboard)
+library(shiny)
+library(lubridate)
+library(dplyr)
+library(dygraphs)
+library(rsconnect)
+library(leaflet)
+library(leaflet.extras)
+library(magrittr)
+library(plotly)
+load("./citi.RData")
+
+
+citi$gender <- ifelse(citi$gender == 1, "Male", ifelse(citi$gender == 2, "Female", "Unknown"))
+citi$date <- substr(citi$starttime,0,10)
+citi$date <- ymd(citi$date)
+citi$days <- weekdays(citi$date)
+citi$starthour <- substr(citi$starttime,12,19)
+citi$age <- 2019 - citi$birth.year
+citi$agegroup <- ifelse(citi$age < 20, "10s",ifelse(citi$age < 30, "20s", ifelse(citi$age < 40, "30s", ifelse(citi$age < 50, "40s", ifelse(citi$age < 60, "50s", ifelse(citi$age < 70, "60s", ifelse(citi$age < 80, "70s", "80+")))))))
